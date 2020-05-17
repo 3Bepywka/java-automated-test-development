@@ -1,8 +1,9 @@
 package com.acme.banking.dbo;
 
 import com.acme.banking.dbo.domain.Client;
+import org.junit.Rule;
 import org.junit.Test;
-
+import org.junit.rules.ExpectedException;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.allOf;
@@ -28,5 +29,14 @@ public class ClientTest {
                         notNullValue()
                 ));
         //endregion
+    }
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
+    @Test
+    public void shouldThrownExceptionWhenCliebtIdIsNull() {
+        exceptionRule.expect(IllegalArgumentException.class);
+        new Client(null, "dummy client name");
     }
 }
