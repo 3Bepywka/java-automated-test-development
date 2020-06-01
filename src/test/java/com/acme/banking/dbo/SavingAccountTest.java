@@ -2,6 +2,7 @@ package com.acme.banking.dbo;
 
 import com.acme.banking.dbo.domain.Client;
 import com.acme.banking.dbo.domain.SavingAccount;
+import io.qameta.allure.junit4.Tag;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class SavingAccountTest {
 
@@ -53,37 +52,36 @@ public class SavingAccountTest {
     @Category(SmokeTests.class)
     @Test
     public void shouldSaveIdWhenSavingAccountCreated() {
-        assertThat(account.getId(),
-                allOf(
-                        equalTo(accountId1),
-                        notNullValue()
-                ));
+        assertAll("Should return id when requested",
+                () -> assertEquals(accountId1, account.getId()),
+                () -> assertNotNull(account.getId())
+        );
     }
 
+    @Tag("RegressionPack")
     @Test
     public void shouldSaveClientWhenSavingAccountCreated() {
-        assertThat(account.getClient(),
-                allOf(
-                        equalTo(client),
-                        notNullValue()
-                ));
+        assertAll("Should return client when requested",
+                () -> assertEquals(client, account.getClient()),
+                () -> assertNotNull(account.getClient())
+        );
     }
 
+    @Tag("RegressionPack")
     @Test
     public void shouldSaveAmountWhenSavingAccountCreated() {
-        assertThat(account.getAmount(),
-                allOf(
-                        equalTo(amount),
-                        notNullValue()
-                ));
+        assertAll("Should return amount when requested",
+                () -> assertEquals(amount, account.getAmount(), 0),
+                () -> assertNotNull(account.getAmount())
+        );
     }
 
+    @Tag("RegressionPack")
     @Test
     public void shouldReturnClientIdWhenRequest() {
-        assertThat(account.getClientId(),
-                allOf(
-                        equalTo(clientId),
-                        notNullValue()
-                ));
+        assertAll("Should return clientId when requested",
+                () -> assertEquals(clientId, account.getClientId()),
+                () -> assertNotNull(account.getClientId())
+        );
     }
 }

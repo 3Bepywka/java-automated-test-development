@@ -1,6 +1,7 @@
 package com.acme.banking.dbo;
 
 import com.acme.banking.dbo.domain.Client;
+import io.qameta.allure.junit4.Tag;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,10 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ClientTest {
 
@@ -41,16 +41,16 @@ public class ClientTest {
     @Category(SmokeTests.class)
     @Test
     public void shouldSavePropertiesWhenCreated() {
-        assertThat(client.getId(),
-                allOf(
-                        equalTo(clientId),
-                        notNullValue()
-                ));
+        assertAll("Should return clientId when requested",
+                () -> assertEquals(clientId, client.getId()),
+                () -> assertNotNull(client.getId())
+        );
     }
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
+    @Tag("RegressionPack")
     @Test
     public void shouldThrownExceptionWhenClientIdIsNull() {
         exceptionRule.expect(IllegalArgumentException.class);
@@ -59,21 +59,21 @@ public class ClientTest {
         new Client(null, clientName, accountIds);
     }
 
+    @Tag("RegressionPack")
     @Test
     public void shouldTReturnClientNameWhenRequested() {
-        assertThat(client.getName(),
-                allOf(
-                        equalTo(clientName),
-                        notNullValue()
-                ));
+        assertAll("Should return client name when requested",
+                () -> assertEquals(clientName, client.getName()),
+                () -> assertNotNull(client.getName())
+        );
     }
 
+    @Tag("RegressionPack")
     @Test
     public void shouldTReturnClientAccountIdsWhenRequested() {
-        assertThat(client.getAccountIds().get(0),
-                allOf(
-                        equalTo(accountId1),
-                        notNullValue()
-                ));
+        assertAll("Should return account ids when requested",
+                () -> assertEquals(accountId1, client.getAccountIds().get(0)),
+                () -> assertNotNull(client.getAccountIds().get(0))
+        );
     }
 }
