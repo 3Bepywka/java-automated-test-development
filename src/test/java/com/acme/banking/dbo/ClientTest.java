@@ -4,6 +4,7 @@ import com.acme.banking.dbo.domain.Client;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class ClientTest {
                 .build();
     }
 
+    @Category(SmokeTests.class)
     @Test
     public void shouldSavePropertiesWhenCreated() {
         assertThat(client.getId(),

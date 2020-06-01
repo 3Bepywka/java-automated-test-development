@@ -5,6 +5,7 @@ import com.acme.banking.dbo.domain.SavingAccount;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +48,9 @@ public class SavingAccountTest {
                 .setClient(client)
                 .setAmount(amount)
                 .build();
-        System.out.println("SA: " + account.toString());
     }
 
+    @Category(SmokeTests.class)
     @Test
     public void shouldSaveIdWhenSavingAccountCreated() {
         assertThat(account.getId(),
