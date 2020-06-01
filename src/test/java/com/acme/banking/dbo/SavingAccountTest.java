@@ -2,10 +2,12 @@ package com.acme.banking.dbo;
 
 import com.acme.banking.dbo.domain.Client;
 import com.acme.banking.dbo.domain.SavingAccount;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.allOf;
@@ -15,38 +17,51 @@ import static org.junit.Assert.assertThat;
 
 public class SavingAccountTest {
 
-    private UUID accountId;
+    private String clientName = "Client Name";
+    private UUID accountId1;
     private UUID clientId;
     private double amount;
-    private String clientName;
+    private List<UUID> accountIds;
+
     private Client client;
+    private SavingAccount account;
 
     @Before
     public void initTestData() {
-        accountId = UUID.randomUUID();
+        accountId1 = UUID.randomUUID();
         clientId = UUID.randomUUID();
+        accountIds = new ArrayList<>();
+        accountIds.add(accountId1);
         amount = RandomUtils.nextDouble();
-        clientName = "Test Name";
-        client = new Client(clientId, clientName);
+
+        Client.Builder clientBuilder = new Client.Builder();
+        client = clientBuilder
+                .setId(clientId)
+                .setName(clientName)
+                .setAccountIds(accountIds)
+                .build();
+
+        SavingAccount.Builder saBuilder = new SavingAccount.Builder();
+        account = saBuilder
+                .setId(accountId1)
+                .setClient(client)
+                .setAmount(amount)
+                .build();
+        System.out.println("SA: " + account.toString());
     }
 
     @Test
     public void shouldSaveIdWhenSavingAccountCreated() {
-        SavingAccount savingAccount = new SavingAccount(accountId, client, amount);
-
-        assertThat(savingAccount.getId(),
+        assertThat(account.getId(),
                 allOf(
-                        equalTo(accountId),
+                        equalTo(accountId1),
                         notNullValue()
                 ));
     }
 
     @Test
     public void shouldSaveClientWhenSavingAccountCreated() {
-
-        SavingAccount savingAccount = new SavingAccount(accountId, client, amount);
-
-        assertThat(savingAccount.getClient(),
+        assertThat(account.getClient(),
                 allOf(
                         equalTo(client),
                         notNullValue()
@@ -55,10 +70,7 @@ public class SavingAccountTest {
 
     @Test
     public void shouldSaveAmountWhenSavingAccountCreated() {
-
-        SavingAccount savingAccount = new SavingAccount(accountId, client, amount);
-
-        assertThat(savingAccount.getAmount(),
+        assertThat(account.getAmount(),
                 allOf(
                         equalTo(amount),
                         notNullValue()
@@ -67,10 +79,7 @@ public class SavingAccountTest {
 
     @Test
     public void shouldReturnClientIdWhenRequest() {
-
-        SavingAccount savingAccount = new SavingAccount(accountId, client, amount);
-
-        assertThat(savingAccount.getClientId(),
+        assertThat(account.getClientId(),
                 allOf(
                         equalTo(clientId),
                         notNullValue()
